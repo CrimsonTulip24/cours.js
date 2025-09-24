@@ -11,19 +11,30 @@ const cible = document.getElementById("cible");
 const source = document.getElementById("source");
 const montantVir = document.getElementById("montant_virement");
 const faireVir = document.getElementById("virement");
+const myForm = document.querySelector("form")
 
 const listeCompte = []
 
 creer.addEventListener("click", function(){
-    listeCompte.push(new CompteBancaire(nom.value, 0));
-    console.log(listeCompte);
+    if(nom.value.trim() !== ""){
+        listeCompte.push(new CompteBancaire(nom.value, 0));
+        console.log(listeCompte);
+    } else {
+        message.innerText = ('Veuillez remplir les champs obligatoires !')
+    }
 });
 
 crediter.addEventListener("click", function(){
     for(let i = 0; i < listeCompte.length; i++){
-        if(compteName.value === listeCompte[i].nom){
-            listeCompte[i].solde += parseInt(montant.value);
-            return console.log(listeCompte)
+        if(compteName.value === listeCompte[i].nom && compteName.value.trim() !== ""){
+            if(isNaN(montant.value)){
+                message.innerText = ('Veuillez entrer un nombre !')
+            } else {
+                listeCompte[i].solde += parseInt(montant.value);
+                return console.log(listeCompte)
+            } 
+        } else {
+            message.innerText = ('Veuillez entrer une information valide !')
         }
     }
 })
@@ -40,12 +51,12 @@ retirer.addEventListener("click", function(){
 faireVir.addEventListener("click", function(){
     for(let i = 0; i < listeCompte.length; i++){
         if(cible.value === listeCompte[i].nom){
-            listeCompte[i].solde += parseInt(montant.value);
+            listeCompte[i].solde += parseInt(montantVir.value);
         }
     }
     for(let j = 0; j < listeCompte.length; j++){
         if(source.value === listeCompte[j].nom){
-            listeCompte[j].solde -= parseInt(montant.value);
+            listeCompte[j].solde -= parseInt(montantVir.value);
         }
     }
     return console.log(listeCompte)
